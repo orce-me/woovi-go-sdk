@@ -46,7 +46,7 @@ func VerifyRSAWithKey(payload []byte, signatureBase64, publicKeyPEM string) erro
 	}
 	sig, err := base64.StdEncoding.DecodeString(signatureBase64)
 	if err != nil {
-		return fmt.Errorf("%w: decode signature: %v", ErrInvalidSignature, err)
+		return fmt.Errorf("%w: decode signature: %w", ErrInvalidSignature, err)
 	}
 	pub, err := parseRSAPublicKey(publicKeyPEM)
 	if err != nil {

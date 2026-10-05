@@ -163,8 +163,7 @@ func (c *Client) do(
 		body = bytes.NewReader(b)
 		contentType = "application/json"
 	}
-	_, err := c.doHTTP(ctx, method, path, query, contentType, body, out, opts...)
-	return err
+	return c.doHTTP(ctx, method, path, query, contentType, body, out, opts...)
 }
 
 func (c *Client) doHTTP(
@@ -175,9 +174,9 @@ func (c *Client) doHTTP(
 	body io.Reader,
 	out any,
 	opts ...RequestOption,
-) ([]byte, error) {
+) error {
 	if ctx == nil {
-		return nil, fmt.Errorf("woovi: context is required")
+		return fmt.Errorf("woovi: context is required")
 	}
 
 	cfg := applyRequestOptions(opts)
@@ -197,12 +196,12 @@ func (c *Client) doHTTP(
 
 	u, err := c.resolveURL(path, query)
 	if err != nil {
-		return nil, err
+		return err
 	}
 
 	req, err := http.NewRequestWithContext(ctx, method, u, body)
 	if err != nil {
-		return nil, fmt.Errorf("woovi: create request: %w", err)
+		return fmt.Errorf("woovi: create request: %w", err)
 	}
 	if contentType != "" {
 		req.Header.Set("Content-Type", contentType)
@@ -222,26 +221,26 @@ func (c *Client) doHTTP(
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return nil, fmt.Errorf("woovi: request failed: %w", err)
+		return fmt.Errorf("woovi: request failed: %w", err)
 	}
 	defer resp.Body.Close()
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return nil, fmt.Errorf("woovi: read response: %w", err)
+		return fmt.Errorf("woovi: read response: %w", err)
 	}
 
 	if resp.StatusCode < 200 || resp.StatusCode >= 300 {
-		return nil, c.apiError(resp, respBody)
+		return c.apiError(resp, respBody)
 	}
 
 	if out == nil || len(respBody) == 0 || resp.StatusCode == http.StatusNoContent {
-		return respBody, nil
+		return nil
 	}
 	if err := json.Unmarshal(respBody, out); err != nil {
-		return nil, fmt.Errorf("woovi: decode response: %w", err)
+		return fmt.Errorf("woovi: decode response: %w", err)
 	}
-	return respBody, nil
+	return nil
 }
 
 func (c *Client) doBytes(

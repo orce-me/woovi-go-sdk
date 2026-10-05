@@ -103,7 +103,7 @@ func (s *FilesService) Upload(ctx context.Context, params *FileUploadParams, opt
 	}
 
 	var out fileEnvelope
-	if _, err := s.client.doHTTP(ctx, http.MethodPost, "/api/v1/files", nil, w.FormDataContentType(), &buf, &out, opts...); err != nil {
+	if err := s.client.doHTTP(ctx, http.MethodPost, "/api/v1/files", nil, w.FormDataContentType(), &buf, &out, opts...); err != nil {
 		return nil, err
 	}
 	return &out.File, nil

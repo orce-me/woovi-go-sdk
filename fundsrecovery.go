@@ -161,20 +161,20 @@ func (s *FundsRecoveriesService) Cancel(ctx context.Context, id string, opts ...
 }
 
 func (s *FundsRecoveriesService) ListDisputes(ctx context.Context, id string, opts ...RequestOption) ([]FundsRecoveryDispute, error) {
-	return decodeFundsRecoveryList[FundsRecoveryDispute](s, ctx, id, "disputes", opts...)
+	return decodeFundsRecoveryList[FundsRecoveryDispute](ctx, s, id, "disputes", opts...)
 }
 
 // ListInfractionReports lists Bacen infraction reports for a funds recovery.
 func (s *FundsRecoveriesService) ListInfractionReports(ctx context.Context, id string, opts ...RequestOption) ([]FundsRecoveryInfractionReport, error) {
-	return decodeFundsRecoveryList[FundsRecoveryInfractionReport](s, ctx, id, "infraction-reports", opts...)
+	return decodeFundsRecoveryList[FundsRecoveryInfractionReport](ctx, s, id, "infraction-reports", opts...)
 }
 
 // ListRefundSolicitations lists Bacen refund solicitations for a funds recovery.
 func (s *FundsRecoveriesService) ListRefundSolicitations(ctx context.Context, id string, opts ...RequestOption) ([]FundsRecoveryRefundSolicitation, error) {
-	return decodeFundsRecoveryList[FundsRecoveryRefundSolicitation](s, ctx, id, "refund-solicitations", opts...)
+	return decodeFundsRecoveryList[FundsRecoveryRefundSolicitation](ctx, s, id, "refund-solicitations", opts...)
 }
 
-func decodeFundsRecoveryList[T any](s *FundsRecoveriesService, ctx context.Context, id, suffix string, opts ...RequestOption) ([]T, error) {
+func decodeFundsRecoveryList[T any](ctx context.Context, s *FundsRecoveriesService, id, suffix string, opts ...RequestOption) ([]T, error) {
 	if id == "" {
 		return nil, fmt.Errorf("woovi: id is required")
 	}

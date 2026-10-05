@@ -32,12 +32,6 @@ const (
 	headerRequestID      = "X-Request-Id"
 )
 
-type roundTripperFunc func(*http.Request) (*http.Response, error)
-
-func (f roundTripperFunc) RoundTrip(r *http.Request) (*http.Response, error) {
-	return f(r)
-}
-
 func wrapTransport(
 	base http.RoundTripper,
 	appID, userAgent string,
@@ -175,13 +169,13 @@ func (t retryTransport) sleep(req *http.Request, attempt int, retryAfter time.Du
 		if base <= 0 {
 			base = 200 * time.Millisecond
 		}
-		max := t.cfg.MaxBackoff
-		if max <= 0 {
-			max = 5 * time.Second
+		maxBackoff := t.cfg.MaxBackoff
+		if maxBackoff <= 0 {
+			maxBackoff = 5 * time.Second
 		}
 		delay = base << attempt
-		if delay > max {
-			delay = max
+		if delay > maxBackoff {
+			delay = maxBackoff
 		}
 		if delay > 0 {
 			delay = time.Duration(rand.Int64N(int64(delay) + 1))
