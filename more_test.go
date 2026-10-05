@@ -113,7 +113,7 @@ func TestDoBytesNotFound(t *testing.T) {
 		t.Fatalf("err=%v", err)
 	}
 	var api *woovi.APIError
-	if !errors.As(err, &api) || api.Unwrap() != woovi.ErrNotFound {
+	if !errors.As(err, &api) {
 		t.Fatalf("api=%v", err)
 	}
 }

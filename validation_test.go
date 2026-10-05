@@ -2,7 +2,6 @@ package woovi_test
 
 import (
 	"context"
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"sync/atomic"
@@ -462,5 +461,7 @@ func TestAuthOKFromScopesOnly(t *testing.T) {
 	if err != nil || !got.OK() {
 		t.Fatalf("got=%+v err=%v", got, err)
 	}
-	_ = json.RawMessage(got.Raw)
+	if len(got.Raw) == 0 {
+		t.Fatal("empty raw")
+	}
 }
