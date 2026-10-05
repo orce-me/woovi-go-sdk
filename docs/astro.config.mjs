@@ -22,6 +22,12 @@ export default defineConfig({
 				baseUrl: 'https://github.com/orce-me/woovi-go-sdk/edit/main/docs/',
 			},
 			lastUpdated: true,
+			customCss: [
+				'@fontsource-variable/space-grotesk/index.css',
+				'@fontsource/space-mono/400.css',
+				'@fontsource/space-mono/700.css',
+				'./src/styles/global.css',
+			],
 			plugins: [
 				ion({
 					footer: {
