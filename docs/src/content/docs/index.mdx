@@ -1,0 +1,34 @@
+---
+title: woovi-go-sdk
+description: Idiomatic Go SDK for the Woovi (OpenPix) REST API.
+template: splash
+hero:
+  tagline: Typed clients, context-first calls, and cent-based money for Pix and beyond.
+  actions:
+    - text: Get started
+      link: guides/getting-started/
+      icon: right-arrow
+    - text: GitHub
+      link: https://github.com/orce-me/woovi-go-sdk
+      icon: external
+      variant: minimal
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components';
+
+## Why this SDK
+
+<CardGrid stagger>
+	<Card title="Idiomatic Go" icon="seti:golang">
+		Functional options, `context.Context`, and zero external dependencies.
+	</Card>
+	<Card title="Money in cents" icon="approve-check">
+		`Money` is an integer type. Use `woovi.Cents(1990)` for R$ 19,90.
+	</Card>
+	<Card title="Full coverage" icon="list-format">
+		Charges, payments, webhooks, TED, KYC, stablecoin, giftback, and more.
+	</Card>
+	<Card title="Safe pagination" icon="document">
+		`List`, `ListAll`, and `ListPages` with `iter.Seq2`.
+	</Card>
+</CardGrid>
