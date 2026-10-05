@@ -21,12 +21,13 @@ func (p PageInfo) HasMore() bool {
 	return false
 }
 
+// listPageHasMore decides if ListAll/ListPages should fetch the next page.
+// Uses HasNextPage or totalCount only. A full last page with hasNextPage=false
+// must stop; guessing from itemCount caused infinite loops.
 func listPageHasMore(info PageInfo, itemCount, limit int) bool {
-	if info.HasMore() {
-		return true
+	_ = itemCount
+	if info.Limit <= 0 && limit > 0 {
+		info.Limit = limit
 	}
-	if info.TotalCount == 0 && !info.HasNextPage && itemCount >= limit && limit > 0 {
-		return true
-	}
-	return false
+	return info.HasMore()
 }
